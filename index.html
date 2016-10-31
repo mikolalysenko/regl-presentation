@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>introducing regl</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>introducing regl 👑</h1>
+					<p>@mikolalysenko</p>
+					<p><a href="https://bits.coop">bits cooperative</a></p>
+				</section>
+				<section>
+					<h1>examples</h1>
+					<ul>
+						<li><a href="http://mikola.neocities.org/crown.html">crown</a></li>
+						<li><a href="https://substack.neocities.org/earth/5.html">globe</a></li>
+						<li><a href="http://mikola.neocities.org/particles3d.html">particles</a></li>
+						<li><a href="https://erkaman.github.io/regl-cnn/src/demo.html">conv net</a></li>
+						<li><a href="https://regl-project.github.io/regl/www/gallery.html">gallery</a></li>
+					</ul>
+				</section>
+				<section>
+					<h2>two schools of 3d graphics</h2>
+
+					<h3>canned 3d engine</h3>
+					<ul>
+						<li>easy set up</li>
+						<li>less flexibility</li>
+						<li>difficult maintanenace</li>
+					</ul>
+
+					<br/><br/>
+
+					<h3>do-it-yourself</h3>
+					<ul>
+						<li>more control</li>
+						<li>less superfluous junk</li>
+						<li>duplication of effort</li>
+					</ul>
+				</section>
+				<section>
+					<h3>democratizing computer graphics</h3>
+
+					<h4>"simple made easy"</h4>
+
+					<h4>want:</h4>
+
+					<ul>
+						<li>shaders!</li>
+						<li>accessible geometry > baked assets</li>
+						<li>reusable components</li>
+						<li>explicit > implicit</li>
+						<li>open ecosystem</li>
+					</ul>
+
+					<br/>
+					<br/>
+					<p>make it easy for anyone to build exactly the 3d engine they need without compromising on quality or robustness</p>
+				</section>
+				<section>
+					<h2>stack.gl</h2>
+
+					<p>goal: modularize computer graphics</p>
+
+					<img src="img/stackgl.png" />
+				</section>
+				<section>
+					<h2>stack.gl: overview</h2>
+
+					<img width="800px" src="img/stackgl-overview.png" />
+				</section>
+				<section>
+					<h2>lessons from stack.gl</h2>
+
+					<br/>
+
+					<h4>glslify and simplicial complexes: 😀 👍</h4>
+					<h4>webgl wrappers: 😞</h4>
+
+					<br/>
+
+					<ul>
+						<li>too much shared state</li>
+						<li>too much coupling between modules</li>
+						<li>lack of testing and clear specifications</li>
+					</ul>
+				</section>
+				<section>
+					<h1>regl</h1>
+
+					<br/>
+					<h4>design goals:</h4>
+					<ul>
+						<li><em>reactivity</em>: minimize shared state</li>
+						<li><em>reliability</em>: docs, specs and tests</li>
+						<li><em>responsiveness</em>: minimal overhead</li>
+					</ul>
+				</section>
+				<section>
+					<h2>object oriented rendering</h2>
+
+					<img style="background-color: white;" src="img/scene-graph.png" />
+
+					<br />
+
+					<ul>
+						<li>scene graphs</li>
+						<li>extremely common</li>
+						<li>"dual write"/data binding problem</li>
+						<li>ex: the DOM, most 3d engines</li>
+					</ul>
+				</section>
+				<section>
+					<h2>functional rendering</h2>
+
+					<img style="background-color: white;" src="img/unidirectional-dataflow.png" />
+
+					<br />
+
+					<ul>
+						<li>unidirectional data flow</li>
+						<li>no state => no data binding</li>
+						<li>ex: react/redux, elm</li>
+					</ul>
+				</section>
+				<section>
+					<h2>demo</h2>
+
+					<img width="800px" src="img/regl-overview.png" />
+				</section>
+				<section>
+					<h1>reliability</h1>
+
+					<h4>built for projects with long life cycles</h4>
+
+					<ul>
+						<li>immediate and clear error messages</li>
+						<li><a href="https://github.com/regl-project/regl/blob/gh-pages/API.md">well specified APIs</a></li>
+						<li>commitment to API stability and limited scope</li>
+						<li>over 40,000 test cases, >95% coverage</li>
+						<li>continuous integration and code review</li>
+					</ul>
+				</section>
+				<section>
+					<h1>headless-gl</h1>
+
+					<h4>npm install gl</h4>
+
+					<ul>
+						<li>creates a webgl context in node.js without a window</li>
+						<li>works in most CI environments: circle-ci, travis, etc.</li>
+						<li>fully conforms to official Khronos ARB test suite</li>
+						<li>built on top of angle</li>
+					</ul>
+				</section>
+				<section>
+					<h1>performance</h1>
+
+					<ul>
+						<li>Just-in-time code generation</li>
+						<li><a href="https://regl-project.github.io/regl/www/bench-results/bench-result-db4b76e25bd8ed6d7ed9">Continuous benchmarking</a></li>
+						<li><a href="https://regl-project.github.io/regl/www/gallery/stats.js.html">Profiling hooks</a></li>
+					</ul>
+				</section>
+				<section>
+					<h1>get involved!</h1>
+
+					<ul>
+						<li>regl.party</li>
+						<li>https://github.com/regl-project/regl</li>
+						<li>https://gitter.im/mikolalysenko/regl</li>
+					</ul>
+				</section>
+				<section>
+					<h1>acknowledgements</h1>
+
+					<img src="img/freeman-lab.png" width="200px"/> <img src="img/erkaman.jpeg" width="200px"/> <img src="img/whichlight.png" width="200px" />
+
+					<ul>
+						<li>@freeman-lab: financial and moral support</li>
+						<li>@erkaman: development</li>
+						<li>@whichlight: event planning and coordination</li>
+						<li>@realazthat, @substack, @mk30 and many others: feedback, discussion and testing</li>
+					</ul>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
